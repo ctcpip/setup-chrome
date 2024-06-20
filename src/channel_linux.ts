@@ -36,11 +36,6 @@ export class LinuxChannelInstaller implements Installer {
     if (!isReleaseChannelName(version)) {
       throw new Error(`Unexpected version: ${version}`);
     }
-    if (version === "canary") {
-      throw new Error(
-        `Chrome ${version} not supported for platform ${this.platform.os} ${this.platform.arch}`,
-      );
-    }
 
     const url = (() => {
       switch (version) {
@@ -50,6 +45,8 @@ export class LinuxChannelInstaller implements Installer {
           return "https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb";
         case "dev":
           return "https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb";
+        case "canary":
+          return "https://dl.google.com/linux/direct/google-chrome-canary_current_amd64.deb";
       }
     })();
 
@@ -64,9 +61,6 @@ export class LinuxChannelInstaller implements Installer {
   ): Promise<InstallResult> {
     if (!isReleaseChannelName(version)) {
       throw new Error(`Unexpected version: ${version}`);
-    }
-    if (version === "canary") {
-      throw new Error(`Chrome ${version} not supported for Linux`);
     }
 
     const tmpdir = await fs.promises.mkdtemp(path.join(os.tmpdir(), "deb-"));
