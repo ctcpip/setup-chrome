@@ -45,12 +45,6 @@ describe("LinuxChannelInstaller", () => {
       );
     });
 
-    test("throw error if version is canary", async () => {
-      await expect(installer.downloadBrowser("canary")).rejects.toThrowError(
-        "Chrome canary not supported for platform linux amd64",
-      );
-    });
-
     test("download stable version", async () => {
       tcDownloadToolSpy.mockResolvedValue("/path/to/downloaded.deb");
 
@@ -66,12 +60,6 @@ describe("LinuxChannelInstaller", () => {
       await expect(
         installer.installBrowser("foo", "/path/to/downloaded.deb"),
       ).rejects.toThrowError("Unexpected version: foo");
-    });
-
-    test("throw error if version is canary", async () => {
-      await expect(
-        installer.installBrowser("canary", "/path/to/downloaded.deb"),
-      ).rejects.toThrowError("Chrome canary not supported for Linux");
     });
 
     test("install stable version", async () => {
@@ -121,11 +109,11 @@ describe("LinuxChannelInstaller", () => {
     });
 
     test("download stable version", async () => {
-      tcDownloadToolSpy.mockResolvedValue("/tmp/chromedirver.zip");
+      tcDownloadToolSpy.mockResolvedValue("/tmp/chromedriver.zip");
 
       const result = await installer.downloadDriver("stable");
 
-      expect(result).toEqual({ archive: "/tmp/chromedirver.zip" });
+      expect(result).toEqual({ archive: "/tmp/chromedriver.zip" });
       expect(tcDownloadToolSpy).toHaveBeenCalled();
     });
   });

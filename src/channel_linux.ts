@@ -36,11 +36,6 @@ export class LinuxChannelInstaller implements Installer {
     if (!isReleaseChannelName(version)) {
       throw new Error(`Unexpected version: ${version}`);
     }
-    if (version === "canary") {
-      throw new Error(
-        `Chrome ${version} not supported for platform ${this.platform.os} ${this.platform.arch}`,
-      );
-    }
 
     const url = (() => {
       switch (version) {
@@ -64,9 +59,6 @@ export class LinuxChannelInstaller implements Installer {
   ): Promise<InstallResult> {
     if (!isReleaseChannelName(version)) {
       throw new Error(`Unexpected version: ${version}`);
-    }
-    if (version === "canary") {
-      throw new Error(`Chrome ${version} not supported for Linux`);
     }
 
     const tmpdir = await fs.promises.mkdtemp(path.join(os.tmpdir(), "deb-"));
